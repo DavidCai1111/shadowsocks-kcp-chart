@@ -1,5 +1,8 @@
 shadowsocks:
   port: 6443
+  password: shadowsocks-kcp-chart-password
+  encrypt: aes-128-cfb
 
 kcp:
   port: 6500
+  mode: fast2

@@ -13,8 +13,8 @@ spec:
       - name: shadowsocks-kcp
         image: mritd/shadowsocks:latest
         ports:
-        - containerPort: 6443
-        - containerPort: 6500
+        - containerPort: {{ .Values.shadowsocks.port }}
+        - containerPort: {{ .Values.kcp.port }}
         resources:
           limits:
             cpu: 100m
@@ -26,8 +26,8 @@ spec:
         - name: SS_MODULE
           value: ss-server
         - name: SS_CONFIG
-          value: -s 127.0.0.1 -p 6500 -b 0.0.0.0 -l 1080 -m chacha20 -k test123 --fast-open
+          value: -s 127.0.0.1 -p {{ .Values.shadowsocks.port }} -b 0.0.0.0 -l 1080 -m chacha20 -k test123 --fast-open
         - name: KCP_FLAG
           value: true
         - name: KCP_CONFIG
-          value: -t 127.0.0.1:6443 -l :6500 -mode fast2
+          value: -t 127.0.0.1:{{ .Values.kcp.port }} -l :{{ .Values.shadowsocks.port }} -mode fast2

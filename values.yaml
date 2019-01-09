@@ -1,2 +1,5 @@
-ss-port: 6443
-kcp-port: 6500
+shadowsocks:
+  port: 6443
+
+kcp:
+  port: 6500

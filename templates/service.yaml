@@ -7,9 +7,9 @@ spec:
     app: app
   ports:
   - protocol: TCP
-    port: 6443
-    targetPort: 6443
+    port: {{ .Values.shadowsocks.port }}
+    targetPort: {{ .Values.shadowsocks.port }}
   - protocol: UDP
-    port: 6500
-    targetPort: 6500
+    port: {{ .Values.kcp.port }}
+    targetPort: {{ .Values.kcp.port }}
   type: NodePort

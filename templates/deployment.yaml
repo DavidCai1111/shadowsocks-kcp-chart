@@ -1,51 +1,33 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: {{ include "shadowsocks-kcp-chart.fullname" . }}
-  labels:
-    app.kubernetes.io/name: {{ include "shadowsocks-kcp-chart.name" . }}
-    helm.sh/chart: {{ include "shadowsocks-kcp-chart.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  name: shadowsocks-kcp
 spec:
-  replicas: {{ .Values.replicaCount }}
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: {{ include "shadowsocks-kcp-chart.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+  replicas: 1
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "shadowsocks-kcp-chart.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        name: shadowsocks-kcp
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+      - name: shadowsocks-kcp
+        image: mritd/shadowsocks:latest
+        ports:
+        - containerPort: 6443
+        - containerPort: 6500
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 50m
+            memory: 200Mi
+        env:
+        - name: SS_MODULE
+          value: ss-server
+        - name: SS_CONFIG
+          value: -s 127.0.0.1 -p 6500 -b 0.0.0.0 -l 1080 -m chacha20 -k test123 --fast-open
+        - name: KCP_FLAG
+          value: true
+        - name: KCP_CONFIG
+          value: -t 127.0.0.1:6443 -l :6500 -mode fast2

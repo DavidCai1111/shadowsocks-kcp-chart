@@ -1,15 +1,17 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: app
+  name: shadowsocks-kcp
 spec:
   selector:
-    app: app
+    app: shadowsocks-kcp
   ports:
   - protocol: TCP
     port: {{ .Values.shadowsocks.port }}
     targetPort: {{ .Values.shadowsocks.port }}
+    name: shadowsocks-port
   - protocol: UDP
     port: {{ .Values.kcp.port }}
     targetPort: {{ .Values.kcp.port }}
+    name: kcp-port
   type: NodePort

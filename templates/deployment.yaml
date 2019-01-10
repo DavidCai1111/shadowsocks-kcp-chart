@@ -16,11 +16,17 @@ spec:
         - name: SS_MODULE
           value: ss-server
         - name: SS_CONFIG
-          value:  -s 0.0.0.0 -p {{ .Values.shadowsocks.port }} -m {{ .Values.shadowsocks.encrypt }} -k  {{ .Values.shadowsocks.password }} --fast-open
+          value: -s 0.0.0.0
+                 -p {{ .Values.shadowsocks.port }}
+                 -m {{ .Values.shadowsocks.encrypt }}
+                 -k {{ .Values.shadowsocks.password }}
+                 --fast-open
         - name: KCP_FLAG
           value: "true"
         - name: KCP_CONFIG
-          value: -t 127.0.0.1:{{ .Values.kcp.port }} -l :{{ .Values.shadowsocks.port }} -mode {{ .Values.kcp.mode }}
+          value: -t 127.0.0.1:{{ .Values.kcp.port }}
+                 -l :{{ .Values.shadowsocks.port }}
+                 -mode {{ .Values.kcp.mode }}
         ports:
         - containerPort: {{ .Values.shadowsocks.port }}
         - containerPort: {{ .Values.kcp.port }}

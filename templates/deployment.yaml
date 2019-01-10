@@ -23,13 +23,16 @@ spec:
                  --fast-open
         - name: KCP_FLAG
           value: "true"
+        - name: KCP_MODULE
+          value: kcpserver
         - name: KCP_CONFIG
           value: -t 127.0.0.1:{{ .Values.kcp.port }}
                  -l :{{ .Values.shadowsocks.port }}
                  -mode {{ .Values.kcp.mode }}
         ports:
         - containerPort: {{ .Values.shadowsocks.port }}
-        - containerPort: {{ .Values.kcp.port }}
+        - protocol: UDP
+          containerPort: {{ .Values.kcp.port }}
         resources:
           limits:
             cpu: 100m

@@ -29,6 +29,8 @@ spec:
           value: -t 127.0.0.1:{{ .Values.kcp.port }}
                  -l :{{ .Values.shadowsocks.port }}
                  -mode {{ .Values.kcp.mode }}
+        - name: RNGD_FLAG
+          value: "true"
         ports:
         - containerPort: {{ .Values.shadowsocks.port }}
         - protocol: UDP

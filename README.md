@@ -5,5 +5,7 @@ The helm chart for shadowsocks and kcp, use [mritd/shadowsocks](https://hub.dock
 ## Usage
 
 ```
-helm install --name shadowsocks-kcp https://github.com/DavidCai1993/shadowsocks-kcp-chart/releases/download/v1.0/shadowsocks-kcp-chart-0.1.0.tgz
+helm install \
+  --name shadowsocks-kcp \
+  https://github.com/DavidCai1993/shadowsocks-kcp-chart/releases/download/v1.1/shadowsocks-kcp-chart-0.1.1.tgz
 ```
